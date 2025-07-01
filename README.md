@@ -13,7 +13,7 @@ Una aplicación web moderna para facilitar el reciclaje y promover la conciencia
 
 ## Demo en vivo
 
-Visita la aplicación: [ReciclaFácil](https://tu-usuario.github.io/app_empresas)
+Visita la aplicación: [ReciclaFácil](https://rafach1906.github.io/reciclafacil)
 
 ## Tecnologías utilizadas
 

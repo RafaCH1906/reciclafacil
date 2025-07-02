@@ -95,7 +95,7 @@
                 <header class="flex justify-between items-center mb-6">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-800">ReciclaFácil</h1>
-                        <p class="text-gray-500">¡Hola, Carlos!</p>
+                        <p id="userGreeting" class="text-gray-500">¡Hola, Usuario!</p>
                     </div>
                     <!-- Icono de perfil -->
                     <div class="w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center">
@@ -116,9 +116,9 @@
 
                 <!-- Barra de búsqueda inteligente con botón Gemini -->
                 <div class="relative mb-8">
-                    <input id="searchInput" type="text" placeholder="¿Qué quieres reciclar hoy?" class="search-focus w-full py-4 px-4 pr-20 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    <input id="searchInput" type="text" placeholder="Ej: botella, papel, lata, pila..." class="search-focus w-full py-4 px-4 pr-20 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
                     <button id="geminiSearchBtn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-full h-10 w-16 flex items-center justify-center pulse-animation shadow-lg">
-                        <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> ✨
+                        <i class="fa-solid fa-search mr-1"></i> 🔍
                     </button>
                 </div>
 
@@ -158,9 +158,9 @@
                 </div>
 
                 <!-- Tip del día -->
-                <div class="bg-white p-5 rounded-2xl shadow-md mb-8">
-                    <h3 class="font-bold text-gray-800 mb-2">💡 ¿Sabías que...?</h3>
-                    <p class="text-gray-600 text-sm">Una sola pila puede contaminar hasta 3,000 litros de agua. ¡Llévalas a un punto de acopio especial!</p>
+                <div class="bg-white p-5 rounded-2xl shadow-md mb-8 cursor-pointer hover-scale" onclick="mostrarTipAleatorio()" title="Haz clic para ver otro tip">
+                    <h3 class="font-bold text-gray-800 mb-2">💡 ¿Sabías que...? <span class="text-xs text-gray-400">(clic para cambiar)</span></h3>
+                    <p id="dailyTip" class="text-gray-600 text-sm">Cargando tip...</p>
                 </div>
 
                 <!-- Vista previa del mapa -->
@@ -190,3 +190,192 @@
             </nav>
         </div>
     </div>
+
+    <!-- JavaScript para funcionalidad de la aplicación -->
+    <script>
+        // Base de datos de objetos reciclables
+        const recyclingDatabase = {
+            // Plásticos
+            'botella': 'Las botellas de plástico van al contenedor amarillo. Enjuágalas antes y quita las tapas si son de diferente material. Se pueden reciclar para hacer nuevas botellas, ropa o alfombras.',
+            'botellas': 'Las botellas de plástico van al contenedor amarillo. Enjuágalas antes y quita las tapas si son de diferente material. Se pueden reciclar para hacer nuevas botellas, ropa o alfombras.',
+            'botella de plastico': 'Las botellas de plástico van al contenedor amarillo. Enjuágalas antes y quita las tapas si son de diferente material. Se pueden reciclar para hacer nuevas botellas, ropa o alfombras.',
+            'plastico': 'Los plásticos van al contenedor amarillo. Busca el símbolo de reciclaje y el número. Los tipos 1, 2, 4 y 5 son los más fáciles de reciclar.',
+            'bolsa': 'Las bolsas de plástico NO van al contenedor amarillo. Llévalas a puntos específicos en supermercados. Mejor usa bolsas reutilizables.',
+            'bolsas': 'Las bolsas de plástico NO van al contenedor amarillo. Llévalas a puntos específicos en supermercados. Mejor usa bolsas reutilizables.',
+            
+            // Vidrio
+            'vidrio': 'El vidrio va al contenedor verde. Quita tapas y etiquetas. Se puede reciclar infinitas veces sin perder calidad.',
+            'botella de vidrio': 'Las botellas de vidrio van al contenedor verde. Quita las tapas metálicas y etiquetas. El vidrio se recicla al 100%.',
+            'frasco': 'Los frascos de vidrio van al contenedor verde. Enjuágalos y quita las tapas metálicas.',
+            'cristal': 'El cristal común va al contenedor verde, pero el cristal de ventanas o espejos necesita gestión especial.',
+            
+            // Papel y cartón
+            'papel': 'El papel va al contenedor azul. Evita papel sucio, encerado o con grapas. Se puede reciclar hasta 7 veces.',
+            'carton': 'El cartón va al contenedor azul. Dóblalo para ocupar menos espacio. Quita cintas adhesivas y grapas.',
+            'periodico': 'Los periódicos van al contenedor azul. Son perfectos para reciclar y hacer papel nuevo.',
+            'revista': 'Las revistas van al contenedor azul. Quita las partes plastificadas si las tiene.',
+            'caja': 'Las cajas de cartón van al contenedor azul. Desmóntalas y quita cintas adhesivas.',
+            
+            // Metales
+            'lata': 'Las latas van al contenedor amarillo. Enjuágalas antes. Se pueden reciclar infinitas veces.',
+            'latas': 'Las latas van al contenedor amarillo. Enjuágalas antes. Se pueden reciclar infinitas veces.',
+            'aluminio': 'El aluminio va al contenedor amarillo. Es 100% reciclable y ahorra mucha energía.',
+            'metal': 'Los metales van al contenedor amarillo. Son muy valiosos para el reciclaje.',
+            
+            // Orgánicos
+            'comida': 'Los restos de comida van al contenedor marrón para compostaje, o puedes hacer compost en casa.',
+            'organico': 'Los residuos orgánicos van al contenedor marrón. Se convierten en compost para fertilizar plantas.',
+            'cascara': 'Las cáscaras van al contenedor marrón o compost casero. Son perfectas para hacer abono natural.',
+            
+            // Electrónicos
+            'celular': 'Los celulares van a puntos limpios o tiendas especializadas. Contienen metales valiosos y sustancias tóxicas.',
+            'telefono': 'Los teléfonos van a puntos limpios o tiendas especializadas. Contienen metales valiosos y sustancias tóxicas.',
+            'computadora': 'Las computadoras van a puntos limpios. Borra tus datos antes. Contienen materiales valiosos.',
+            'bateria': 'Las baterías van a puntos específicos, nunca al contenedor común. Son muy contaminantes.',
+            'pila': 'Las pilas van a contenedores especiales en tiendas o puntos limpios. Una pila contamina 3,000 litros de agua.',
+            'pilas': 'Las pilas van a contenedores especiales en tiendas o puntos limpios. Una pila contamina 3,000 litros de agua.',
+            
+            // Aceites
+            'aceite': 'El aceite usado va a puntos específicos. Nunca por el desagüe. Se puede convertir en biodiesel.',
+            
+            // Ropa y textiles
+            'ropa': 'La ropa en buen estado va a contenedores textiles o donaciones. La ropa deteriorada también se puede reciclar.',
+            'tela': 'Las telas van a contenedores textiles especiales. Se pueden convertir en nuevos productos.',
+            
+            // Medicamentos
+            'medicamento': 'Los medicamentos van a farmacias con punto SIGRE. Nunca al contenedor común ni al váter.',
+            'medicina': 'Las medicinas van a farmacias con punto SIGRE. Nunca al contenedor común ni al váter.'
+        };
+
+        // Función mejorada para buscar información de reciclaje
+        function buscarInformacionReciclaje(query) {
+            const queryLower = query.toLowerCase().trim();
+            
+            // Buscar coincidencia exacta
+            if (recyclingDatabase[queryLower]) {
+                return recyclingDatabase[queryLower];
+            }
+            
+            // Buscar coincidencias parciales
+            for (let key in recyclingDatabase) {
+                if (queryLower.includes(key) || key.includes(queryLower)) {
+                    return recyclingDatabase[key];
+                }
+            }
+            
+            // Si no encuentra coincidencia, dar consejos generales
+            return `No encontré información específica sobre "${query}", pero aquí tienes algunos consejos generales:\n\n🔵 Contenedor azul: papel y cartón\n🟡 Contenedor amarillo: plásticos, latas y briks\n🟢 Contenedor verde: vidrio\n🟤 Contenedor marrón: orgánicos\n\n¿Podrías ser más específico? Por ejemplo: "botella", "papel", "lata", etc.`;
+        }
+
+        // Array de tips de reciclaje aleatorios
+        const recyclingTips = [
+            "Una sola pila puede contaminar hasta 3,000 litros de agua. ¡Llévalas a un punto de acopio especial!",
+            "El papel reciclado usa 60% menos energía que fabricar papel nuevo desde cero.",
+            "Una botella de plástico puede tardar hasta 450 años en descomponerse en la naturaleza.",
+            "Reciclar una lata de aluminio ahorra suficiente energía para que funcione un televisor durante 3 horas.",
+            "El vidrio puede reciclarse infinitas veces sin perder calidad ni pureza.",
+            "Separar correctamente los residuos puede reducir hasta un 70% la basura que va a los rellenos sanitarios.",
+            "Una tonelada de papel reciclado salva aproximadamente 17 árboles adultos.",
+            "Las bolsas de plástico tardan entre 400 y 1,000 años en degradarse completamente.",
+            "Reciclar 6 botellas de plástico PET genera suficiente fibra para hacer una camiseta.",
+            "El cartón corrugado es uno de los materiales más reciclados del mundo, con una tasa del 90%.",
+            "Los teléfonos móviles contienen metales preciosos como oro, plata y platino que pueden recuperarse.",
+            "Compostar los residuos orgánicos reduce las emisiones de metano en los vertederos.",
+            "Una familia promedio genera 4.5 kilos de basura al día, pero podría reducirlo a la mitad reciclando.",
+            "Las pilas recargables pueden usarse hasta 1,000 veces antes de necesitar ser recicladas.",
+            "Reciclar aceite de cocina usado puede convertirse en biodiesel para vehículos."
+        ];
+
+        // Función para mostrar un tip aleatorio
+        function mostrarTipAleatorio() {
+            const randomIndex = Math.floor(Math.random() * recyclingTips.length);
+            const tipElement = document.getElementById('dailyTip');
+            tipElement.textContent = recyclingTips[randomIndex];
+        }
+
+        // Solicitar nombre del usuario al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            let userName = localStorage.getItem('userName');
+            
+            if (!userName) {
+                userName = prompt('¡Bienvenido a ReciclaFácil! ¿Cuál es tu nombre?');
+                if (userName && userName.trim() !== '') {
+                    localStorage.setItem('userName', userName.trim());
+                } else {
+                    userName = 'Usuario';
+                }
+            }
+            
+            // Actualizar el saludo con el nombre del usuario
+            document.getElementById('userGreeting').textContent = `¡Hola, ${userName}!`;
+            
+            // Mostrar tip aleatorio al cargar la página
+            mostrarTipAleatorio();
+        });
+
+        // Funcionalidad del botón Gemini de búsqueda
+        document.getElementById('geminiSearchBtn').addEventListener('click', function() {
+            const searchInput = document.getElementById('searchInput');
+            const query = searchInput.value.trim();
+            
+            if (query) {
+                const resultado = buscarInformacionReciclaje(query);
+                alert(`🔍 Información sobre: "${query}"\n\n${resultado}\n\n✨ Powered by ReciclaFácil`);
+                
+                // Limpiar el campo de búsqueda
+                searchInput.value = '';
+            } else {
+                alert('Por favor, escribe algo para buscar. Por ejemplo: "botella", "papel", "lata", etc.');
+            }
+        });
+
+        // Funcionalidad para los botones principales
+        document.getElementById('recyclingGuideBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('📚 Guía de Reciclaje\n\n¡Próximamente tendrás acceso a guías detalladas sobre cómo reciclar diferentes materiales!');
+        });
+
+        document.getElementById('scannerBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('📸 Escáner de Objetos\n\n¡Próximamente podrás escanear objetos con tu cámara para saber cómo reciclarlos correctamente!');
+        });
+
+        document.getElementById('mapBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('🗺️ Mapa de Puntos de Acopio\n\n¡Próximamente tendrás un mapa interactivo con todos los puntos de reciclaje cercanos!');
+        });
+
+        document.getElementById('creativeIdeasBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('💡 Ideas Creativas\n\n¡Próximamente tendrás ideas innovadoras para reutilizar y dar nueva vida a tus materiales!');
+        });
+
+        // Funcionalidad para el preview del mapa
+        document.getElementById('mapPreview').addEventListener('click', function() {
+            alert('🗺️ Abriendo mapa completo...\n\n¡Función en desarrollo! Pronto podrás ver todos los puntos de reciclaje en tu zona.');
+        });
+
+        // Funcionalidad para permitir buscar con Enter
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('geminiSearchBtn').click();
+            }
+        });
+
+        // Función para cambiar el nombre de usuario
+        function cambiarNombre() {
+            const nuevoNombre = prompt('¿Cuál es tu nombre?', localStorage.getItem('userName') || '');
+            if (nuevoNombre && nuevoNombre.trim() !== '') {
+                localStorage.setItem('userName', nuevoNombre.trim());
+                document.getElementById('userGreeting').textContent = `¡Hola, ${nuevoNombre.trim()}!`;
+            }
+        }
+
+        // Agregar funcionalidad al icono de perfil para cambiar nombre
+        document.querySelector('.fa-user').parentElement.addEventListener('click', function() {
+            cambiarNombre();
+        });
+    </script>
+
+</body>
+</html>

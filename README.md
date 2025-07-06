@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ReciclaFácil 🌱
 
 Una aplicación web moderna y intuitiva para facilitar el reciclaje con guías interactivas, búsqueda inteligente y una experiencia de usuario optimizada.
@@ -121,3 +122,28 @@ Para preguntas o sugerencias sobre ReciclaFácil, no dudes en contactar.
 ---
 
 **ReciclaFácil** - Haciendo el reciclaje más fácil y accesible para todos 🌍♻️
+=======
+# ReciclaFácil - App de Reciclaje
+
+Una aplicación web moderna para facilitar el reciclaje y promover la conciencia ambiental.
+
+## Características
+
+- ✅ Interfaz moderna y responsive
+- ✅ Búsqueda inteligente con IA
+- ✅ Guía de reciclaje interactiva
+- ✅ Escáner de objetos
+- ✅ Mapa de puntos de acopio
+- ✅ Ideas creativas para reutilización
+
+## Demo en vivo
+
+Visita la aplicación: [ReciclaFácil](https://rafach1906.github.io/reciclafacil)
+
+## Tecnologías utilizadas
+
+- HTML5
+- Tailwind CSS
+- Font Awesome
+- JavaScript
+>>>>>>> 9f97ef0fac5e7d6b9be0dc62a71e69c3b3de53ac

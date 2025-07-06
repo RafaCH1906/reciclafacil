@@ -21,7 +21,6 @@ reciclafacil/
 │   └── styles.css      # Estilos personalizados
 ├── js/
 │   └── app.js          # Funcionalidad JavaScript
-├── assets/             # Recursos (imágenes, iconos)
 └── README.md          # Documentación
 ```
 

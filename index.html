@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Metadatos básicos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReciclaFácil - Prototipo con Gemini</title>
+    <meta name="description" content="Aplicación web para facilitar el reciclaje con guías interactivas y búsqueda inteligente">
+    <meta name="keywords" content="reciclaje, medio ambiente, sostenibilidad, app ecológica">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Iconos Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Fuente Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-200">
+
+    <!-- Contenedor del mockup del teléfono -->
+    <div class="phone-mockup">
+        <div class="bg-gray-50 h-full overflow-y-auto">
+            <!-- Contenedor principal -->
+            <div class="p-6 pb-32">
+
+                <!-- Encabezado de la aplicación -->
+                <header class="flex justify-between items-center mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">ReciclaFácil</h1>
+                        <p id="userGreeting" class="text-gray-500">¡Hola, Usuario!</p>
+                    </div>
+                    <!-- Icono de perfil -->
+                    <div class="w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-300 transition-colors" title="Cambiar nombre">
+                        <i class="fa-solid fa-user text-blue-600 text-xl"></i>
+                    </div>
+                </header>
+
+                <!-- Tarjeta de próxima fecha de recojo -->
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 rounded-lg mb-6 shadow-md">
+                    <div class="flex items-center">
+                        <i class="fa-solid fa-truck-fast text-2xl mr-4"></i>
+                        <div>
+                            <p class="font-bold">¡El próximo recojo es mañana!</p>
+                            <p class="text-sm">Prepara tus plásticos y vidrios.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barra de búsqueda inteligente con botón Gemini -->
+                <div class="relative mb-8">
+                    <input 
+                        id="searchInput" 
+                        type="text" 
+                        placeholder="Ej: botella, papel, lata, pila..." 
+                        class="search-focus w-full py-4 px-4 pr-20 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        aria-label="Buscar información sobre reciclaje"
+                    >
+                    <button 
+                        id="geminiSearchBtn" 
+                        class="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-full h-10 w-16 flex items-center justify-center pulse-animation shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        aria-label="Buscar con inteligencia artificial"
+                    >
+                        <i class="fa-solid fa-search mr-1"></i> 🔍
+                    </button>
+                </div>
+
+                <!-- Botones principales de acción -->
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <!-- Botón Guía -->
+                    <a href="#" id="recyclingGuideBtn" class="hover-scale bg-white p-4 rounded-2xl shadow-md hover:shadow-lg transition-shadow text-center focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <div class="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+                            <i class="fa-solid fa-book-open text-3xl text-blue-600"></i>
+                        </div>
+                        <p class="font-semibold text-gray-700">Guía de Reciclaje</p>
+                    </a>
+
+                    <!-- Botón Escanear -->
+                    <a href="#" id="scannerBtn" class="hover-scale bg-white p-4 rounded-2xl shadow-md hover:shadow-lg transition-shadow text-center focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <div class="bg-green-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+                            <i class="fa-solid fa-camera text-3xl text-green-600"></i>
+                        </div>
+                        <p class="font-semibold text-gray-700">Escanear Objeto</p>
+                    </a>
+
+                    <!-- Botón Mapa -->
+                    <a href="#" id="mapBtn" class="hover-scale bg-white p-4 rounded-2xl shadow-md hover:shadow-lg transition-shadow text-center focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <div class="bg-orange-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+                           <i class="fa-solid fa-map-location-dot text-3xl text-orange-600"></i>
+                        </div>
+                        <p class="font-semibold text-gray-700">Puntos de Acopio</p>
+                    </a>
+
+                    <!-- Botón Ideas Creativas -->
+                    <a href="#" id="creativeIdeasBtn" class="hover-scale bg-white p-4 rounded-2xl shadow-md hover:shadow-lg transition-shadow text-center focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                        <div class="bg-yellow-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+                            <i class="fa-solid fa-lightbulb text-3xl text-yellow-600"></i>
+                        </div>
+                        <p class="font-semibold text-gray-700">✨ Ideas Creativas</p>
+                    </a>
+                </div>
+
+                <!-- Tip del día -->
+                <div class="bg-white p-5 rounded-2xl shadow-md mb-8 cursor-pointer hover-scale" onclick="mostrarTipAleatorio()" title="Haz clic para ver otro tip">
+                    <h3 class="font-bold text-gray-800 mb-2">💡 ¿Sabías que...? <span class="text-xs text-gray-400">(clic para cambiar)</span></h3>
+                    <p id="dailyTip" class="text-gray-600 text-sm">Cargando tip...</p>
+                </div>
+
+                <!-- Vista previa del mapa -->
+                <div id="mapPreview" class="bg-white p-5 rounded-2xl shadow-md cursor-pointer hover-scale">
+                    <h3 class="font-bold text-gray-800 mb-3">📍 Puntos Cercanos en Barranco</h3>
+                    <div class="rounded-lg overflow-hidden h-40 bg-gray-200 flex items-center justify-center">
+                        <img src="https://placehold.co/400x200/e2e8f0/64748b?text=Mapa+de+Puntos+de+Reciclaje" alt="Mapa con puntos de reciclaje" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Barra de navegación inferior -->
+            <nav class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around h-20 items-center rounded-b-3xl">
+                <a href="#" class="text-green-600 flex flex-col items-center focus:outline-none focus:ring-2 focus:ring-green-500 rounded p-2">
+                    <i class="fa-solid fa-house text-2xl"></i>
+                    <span class="text-xs font-medium">Inicio</span>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-green-600 flex flex-col items-center focus:outline-none focus:ring-2 focus:ring-green-500 rounded p-2">
+                    <i class="fa-solid fa-chart-pie text-2xl"></i>
+                    <span class="text-xs">Progreso</span>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-green-600 flex flex-col items-center focus:outline-none focus:ring-2 focus:ring-green-500 rounded p-2">
+                    <i class="fa-solid fa-cog text-2xl"></i>
+                    <span class="text-xs">Ajustes</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Modal para la Guía de Reciclaje -->
+    <div id="recyclingGuideModal" class="modal fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-hidden">
+            <!-- Header del modal -->
+            <div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold">📚 Guía de Reciclaje</h2>
+                    <button id="closeModal" class="text-white hover:text-gray-200 text-2xl focus:outline-none focus:ring-2 focus:ring-white rounded" aria-label="Cerrar modal">&times;</button>
+                </div>
+                <p class="text-green-100 mt-2">Todo lo que necesitas saber para reciclar correctamente</p>
+            </div>
+
+            <!-- Contenido del modal -->
+            <div class="p-6 overflow-y-auto custom-scrollbar" style="max-height: 60vh;">
+                <!-- Navegación por categorías -->
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button class="category-btn active bg-green-500 text-white px-4 py-2 rounded-full text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-400" data-category="all">Todas</button>
+                    <button class="category-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400" data-category="plastic">Plásticos</button>
+                    <button class="category-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400" data-category="glass">Vidrio</button>
+                    <button class="category-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400" data-category="paper">Papel</button>
+                    <button class="category-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400" data-category="metal">Metal</button>
+                    <button class="category-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400" data-category="organic">Orgánicos</button>
+                    <button class="category-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400" data-category="electronics">Electrónicos</button>
+                </div>
+
+                <!-- Contenedor de los elementos de reciclaje -->
+                <div id="recyclingItems" class="space-y-4">
+                    <!-- Los elementos se generarán dinámicamente con JavaScript -->
+                </div>
+            </div>
+
+            <!-- Footer del modal -->
+            <div class="bg-gray-50 p-4 border-t">
+                <p class="text-sm text-gray-600 text-center">
+                    💡 <strong>Tip:</strong> Siempre limpia los envases antes de reciclarlos
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript para funcionalidad de la aplicación -->
+    <script src="js/app.js"></script>
+
+</body>
+</html>

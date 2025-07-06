@@ -1,0 +1,43 @@
+{
+  "name": "reciclafacil",
+  "version": "1.0.0",
+  "description": "Aplicación web moderna para facilitar el reciclaje con guías interactivas y búsqueda inteligente",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx serve ."
+  },
+  "keywords": [
+    "reciclaje",
+    "medio ambiente",
+    "sostenibilidad",
+    "ecología",
+    "app web",
+    "javascript",
+    "html5",
+    "css3"
+  ],
+  "author": "ReciclaFácil Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/usuario/reciclafacil.git"
+  },
+  "homepage": "https://usuario.github.io/reciclafacil",
+  "bugs": {
+    "url": "https://github.com/usuario/reciclafacil/issues"
+  },
+  "devDependencies": {
+    "serve": "^14.0.0"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not dead"
+  ],
+  "config": {
+    "tailwind": "^3.0.0",
+    "fontawesome": "^6.4.0",
+    "googlefonts": "Inter"
+  }
+}

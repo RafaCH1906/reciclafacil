@@ -89,14 +89,6 @@
                         <p class="font-semibold text-gray-700">Escanear Objeto</p>
                     </a>
 
-                    <!-- Botón Mapa -->
-                    <a href="#" id="mapBtn" class="hover-scale bg-white p-4 rounded-2xl shadow-md hover:shadow-lg transition-shadow text-center focus:outline-none focus:ring-2 focus:ring-orange-500">
-                        <div class="bg-orange-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
-                           <i class="fa-solid fa-map-location-dot text-3xl text-orange-600"></i>
-                        </div>
-                        <p class="font-semibold text-gray-700">Puntos de Acopio</p>
-                    </a>
-
                     <!-- Botón Ideas Creativas -->
                     <a href="#" id="creativeIdeasBtn" class="hover-scale bg-white p-4 rounded-2xl shadow-md hover:shadow-lg transition-shadow text-center focus:outline-none focus:ring-2 focus:ring-yellow-500">
                         <div class="bg-yellow-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
@@ -112,11 +104,84 @@
                     <p id="dailyTip" class="text-gray-600 text-sm">Cargando tip...</p>
                 </div>
 
-                <!-- Vista previa del mapa -->
-                <div id="mapPreview" class="bg-white p-5 rounded-2xl shadow-md cursor-pointer hover-scale">
-                    <h3 class="font-bold text-gray-800 mb-3">📍 Puntos Cercanos en Barranco</h3>
-                    <div class="rounded-lg overflow-hidden h-40 bg-gray-200 flex items-center justify-center">
-                        <img src="https://placehold.co/400x200/e2e8f0/64748b?text=Mapa+de+Puntos+de+Reciclaje" alt="Mapa con puntos de reciclaje" class="w-full h-full object-cover">
+                <!-- Sistema de Gamificación - EcoRewards -->
+                <div class="bg-gradient-to-br from-purple-500 to-pink-500 p-6 rounded-2xl shadow-lg mb-6 text-white relative overflow-hidden">
+                    <!-- Decoración de fondo -->
+                    <div class="absolute top-0 right-0 text-6xl opacity-20">🏆</div>
+                    <div class="absolute bottom-0 left-0 text-4xl opacity-20">⭐</div>
+                    
+                    <h3 class="text-2xl font-bold mb-2">🎮 EcoRewards Game</h3>
+                    <p class="text-purple-100 mb-4">¡Recicla, gana puntos y canjea increíbles premios!</p>
+                    
+                    <!-- Puntos actuales del usuario -->
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3 mb-4">
+                        <div class="flex justify-between items-center">
+                            <span class="font-semibold">Tus EcoPoints:</span>
+                            <span id="userPoints" class="text-2xl font-bold">1,250 🪙</span>
+                        </div>
+                        <div class="mt-2 bg-white bg-opacity-30 rounded-full h-2">
+                            <div class="bg-yellow-300 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                        <p class="text-xs mt-1 text-purple-100">¡250 puntos más para el siguiente nivel!</p>
+                    </div>
+                    
+                    <!-- Logros recientes -->
+                    <div class="grid grid-cols-3 gap-2 mb-4">
+                        <div class="bg-white bg-opacity-20 rounded-lg p-2 text-center">
+                            <div class="text-2xl">🥉</div>
+                            <p class="text-xs">Reciclador</p>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-lg p-2 text-center">
+                            <div class="text-2xl">🌱</div>
+                            <p class="text-xs">Eco Hero</p>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-lg p-2 text-center opacity-50">
+                            <div class="text-2xl">🏆</div>
+                            <p class="text-xs">Champion</p>
+                        </div>
+                    </div>
+                    
+                    <button id="ecoRewardsBtn" class="w-full bg-white text-purple-600 font-bold py-3 px-4 rounded-xl hover:bg-gray-100 transition-colors shadow-lg">
+                        🎁 Ver Premios Disponibles
+                    </button>
+                </div>
+
+                <!-- Misiones Diarias -->
+                <div class="bg-white p-5 rounded-2xl shadow-md mb-6">
+                    <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-2xl mr-2">🎯</span>
+                        Misiones Diarias
+                        <span class="ml-auto text-sm text-green-600 font-normal">2/3 completadas</span>
+                    </h3>
+                    
+                    <div class="space-y-3">
+                        <!-- Misión completada -->
+                        <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
+                            <div class="text-green-500 text-xl mr-3">✅</div>
+                            <div class="flex-1">
+                                <p class="font-medium text-green-800">Separar 5 botellas de plástico</p>
+                                <p class="text-sm text-green-600">+50 EcoPoints</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Misión completada -->
+                        <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
+                            <div class="text-green-500 text-xl mr-3">✅</div>
+                            <div class="flex-1">
+                                <p class="font-medium text-green-800">Buscar información de reciclaje</p>
+                                <p class="text-sm text-green-600">+25 EcoPoints</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Misión pendiente -->
+                        <div class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg cursor-pointer hover:bg-yellow-100">
+                            <div class="text-yellow-500 text-xl mr-3">⏳</div>
+                            <div class="flex-1">
+                                <p class="font-medium text-yellow-800">Compartir un tip de reciclaje</p>
+                                <p class="text-sm text-yellow-600">+75 EcoPoints</p>
+                            </div>
+                            <div class="text-yellow-600 text-sm">Pendiente</div>
+                        </div>
                     </div>
                 </div>
 
